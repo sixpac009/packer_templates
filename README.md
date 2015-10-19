@@ -1,6 +1,7 @@
 # packer_templates
 
-Packer templates for building vagrant box (parallel, virtualbox, vmware)
+Packer templates for building vagrant box localy for parallels and
+with Hashicorp Atlas for virtualbox, and vmware.
 
 NOTE: Maybe you prefer official Ubuntu and CentOS vagrant boxes
 ===============================================================
