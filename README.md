@@ -1,7 +1,5 @@
 # packer_templates
-==========================
-sixpac009_packer_templates
-==========================
+
 Packer templates for building vagrant box (parallel, virtualbox, vmware)
 
 NOTE: Maybe you prefer official Ubuntu and CentOS vagrant boxes
