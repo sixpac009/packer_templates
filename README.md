@@ -2,7 +2,7 @@
 
 Packer templates for building vagrant box localy for parallels and
 with Hashicorp Atlas for virtualbox, and vmware. (The base of these
-templates came from boxcutter I modified and added parallels build.)
+templates came from boxcutter I modified and added parallels build)
 
 NOTE: Maybe you prefer official Ubuntu and CentOS vagrant boxes
 ===============================================================
