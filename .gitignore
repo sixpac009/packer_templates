@@ -1,0 +1,5 @@
+.DS_Store
+centos/iso/
+centos/packer_cache/
+centos/box/
+centos/output-parallels-iso/
