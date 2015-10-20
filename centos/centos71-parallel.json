@@ -1,6 +1,6 @@
 {
     "push": {
-      "name": "sixpac009/centos71-base",
+      "name": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
       "vcs": true
     },
     "variables": {
@@ -25,7 +25,7 @@
         "ssh_username": "vagrant",
         "ssh_port": "22",
         "update": "false",
-        "version": "0.0.4"
+        "version": "0.0.1"
     },
     "provisioners": [
         {
