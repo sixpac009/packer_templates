@@ -1,6 +1,6 @@
 {
     "push": {
-      "name": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
+      "name": "sixpac009/centos71-base",
       "vcs": true
     },
     "variables": {
@@ -25,7 +25,7 @@
         "ssh_username": "vagrant",
         "ssh_port": "22",
         "update": "false",
-        "version": "0.0.1"
+        "version": "0.0.4"
     },
     "provisioners": [
         {
@@ -50,8 +50,7 @@
                 "script/sshd.sh",
                 "script/update.sh",
                 "script/vagrant.sh",
-                "script/virtualbox.sh",
-                "script/vmware.sh",
+                "script/parallels.sh",
                 "script/cmtool.sh",
                 "script/cleanup.sh"
             ]
@@ -59,93 +58,50 @@
     ],
     "builders": [
         {
-          "type": "virtualbox-iso",
+          "type": "parallels-iso",
           "boot_command": [
             "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
           ],
+          "boot_wait": "10s",
           "disk_size": 65536,
-          "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-          "guest_os_type": "RedHat_64",
-          "hard_drive_interface": "sata",
-          "headless": "{{ user `headless` }}",
+          "guest_os_type": "centos",
           "http_directory": "http",
           "iso_checksum": "{{ user `iso_checksum` }}",
           "iso_checksum_type": "sha1",
-          "iso_urls": "{{ user `iso_url` }}",
-          "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-          "ssh_password": "{{ user `ssh_password` }}",
-          "ssh_username": "{{ user `ssh_username` }}",
-          "ssh_port": "{{ user `ssh_port` }}",
-          "ssh_wait_timeout": "10000s",
-          "vboxmanage": [
+          "iso_urls": [
+            "{{ user `iso_path` }}/{{ user `iso_name` }}",
+            "{{ user `iso_url` }}"
+          ],
+          "output_directory": "packer-{{user `file_name`}}-parallels",
+          "parallels_tools_flavor": "lin",
+          "prlctl": [
             [
-              "modifyvm",
+              "set",
               "{{.Name}}",
-              "--memory",
+              "--memsize",
               "512"
             ],
             [
-              "modifyvm",
+              "set",
               "{{.Name}}",
               "--cpus",
               "1"
             ]
           ],
-          "virtualbox_version_file": ".vbox_version",
-          "vm_name": "{{user `file_name`}}"
-        },
-        {
-          "type": "vmware-iso",
-          "boot_command": [
-            "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks7.cfg<enter>"
-          ],
-          "disk_size": 65536,
-          "floppy_files": [
-            "floppy/vmware9.compat_dcache.h.patch"
-          ],
-          "guest_os_type": "centos-64",
-          "headless": "{{ user `headless` }}",
-          "http_directory": "http",
-          "iso_checksum": "{{ user `iso_checksum` }}",
-          "iso_checksum_type": "sha1",
-          "iso_urls": "{{ user `iso_url` }}",
+          "prlctl_version_file": ".prlctl_version",
           "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
           "ssh_password": "{{ user `ssh_password` }}",
           "ssh_username": "{{ user `ssh_username` }}",
           "ssh_wait_timeout": "10000s",
-          "tools_upload_flavor": "linux",
-          "vm_name": "{{user `file_name`}}",
-          "vmx_data": {
-            "cpuid.coresPerSocket": "1",
-            "memsize": "512",
-            "numvcpus": "1"
-          }
+          "vm_name": "{{user `file_name`}}"
         }
     ],
     "post-processors": [
-        [{
+        {
             "type": "vagrant",
-            "keep_input_artifact": false
-        },
-        {
-            "type": "atlas",
-            "only": ["vmware-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "vmware_desktop",
-                "version": "{{user `version`}}"
-            }
-        },
-        {
-            "type": "atlas",
-            "only": ["virtualbox-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "virtualbox",
-                "version": "{{user `version`}}"
-            }
-        }]
+            "only": ["parallels-iso"],
+            "keep_input_artifact": false,
+            "output": "box/{{.Provider}}/{{user `file_name`}}-{{user `cm`}}{{user `cm_version`}}-{{user `version`}}.box"
+        }
     ]
 }
