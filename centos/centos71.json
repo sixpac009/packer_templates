@@ -25,7 +25,7 @@
         "ssh_username": "vagrant",
         "ssh_port": "22",
         "update": "false",
-        "version": "0.0.2"
+        "version": "0.0.1"
     },
     "provisioners": [
         {
