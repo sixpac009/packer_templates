@@ -2,6 +2,11 @@
     "push": {
       "name": "{{ user `atlas_username` }}/{{ user `atlas_name` }}",
       "vcs": true
+      "exclude": [
+        "*parallel*",
+        "*desktop*"
+
+      ]
     },
     "variables": {
         "atlas_username": "sixpac009",
@@ -123,7 +128,7 @@
         }
     ],
     "post-processors": [
-        {
+        [{
             "type": "vagrant",
             "keep_input_artifact": false
         },
@@ -146,6 +151,6 @@
                 "provider": "virtualbox",
                 "version": "{{user `version`}}"
             }
-        }
+        }]
     ]
 }
