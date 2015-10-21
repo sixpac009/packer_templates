@@ -25,7 +25,7 @@
         "ssh_username": "vagrant",
         "ssh_port": "22",
         "update": "false",
-        "version": "0.0.1"
+        "version": "0.0.2"
     },
     "provisioners": [
         {
@@ -123,7 +123,7 @@
         }
     ],
     "post-processors": [
-        [{
+        {
             "type": "vagrant",
             "keep_input_artifact": false
         },
@@ -146,6 +146,6 @@
                 "provider": "virtualbox",
                 "version": "{{user `version`}}"
             }
-        }]
+        }
     ]
 }
